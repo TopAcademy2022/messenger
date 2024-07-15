@@ -27,7 +27,19 @@ services:
             - ${EXPORT_DATABASE_PORT}:1433
         restart: always
         volumes:
-        - mssql-data:/var/opt/mssql
+            - mssql-data:/var/opt/mssql
+    twportainer:
+        image: portainer/portainer-ce:latest
+        container_name: twportainer
+        environment:
+            - TZ=Europe/Moscow
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /opt/twportainer/portainer_data:/data
+        ports:
+            - "8000:8000"
+            - "9443:9443"
+        restart: always
 
 volumes:
     mssql-data:
