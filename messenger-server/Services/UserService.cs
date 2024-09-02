@@ -117,9 +117,18 @@ namespace messenger_server.Services
 		// Replace
 		public bool CheckCorrectPassword(string password)
 		{
-			return true;
-		}
-
+			// Проверяет длинну пароля на пустоту и длину
+            if (string.IsNullOrEmpty(password) || password.Length < 16) /*Если логин пустой и его длина меньше 16 то выводит false*/
+            {
+                return false;
+            }
+            string xssPattern = @"[<|>]+";
+            if (Regex.IsMatch(password, xssPattern))
+            {
+                return false;
+            }
+            return true;
+        }
 		// Replace
 		public bool CheckCorrectEmail(string email)
 		{
@@ -147,5 +156,6 @@ namespace messenger_server.Services
 
 			return null;
 		}
-	}
+       
+    }
 }
